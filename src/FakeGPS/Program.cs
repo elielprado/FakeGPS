@@ -2,10 +2,9 @@
 {
     using System;
     using System.Diagnostics;
-
-    using FakeGPS.Common;
-
+    using System.Windows.Forms;
     using CommandLine;
+    using FakeGPS.Common;
 
     /// <summary>
     /// The FakeGPS Command Line Program.
@@ -18,12 +17,12 @@
         /// <param name="args">The Command Line Arguments.</param>
         public static void Main(string[] args)
         {
-            // not keen on the format of --help so let's do our own here
+            // If no arguments, open the GUI (Windows Form)
             if (args == null || args.Length == 0)
             {
-                ConsoleHelper.WriteHeader();
-                ConsoleHelper.WriteHelp();
-                ConsoleHelper.WriteDebugExit();
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new FakeGPSForm());
                 return;
             }
 
@@ -81,8 +80,9 @@
                     exitCode = 0;
                 });
 
-            Environment.Exit(exitCode);
             ConsoleHelper.WriteDebugExit();
+            Console.ReadKey();
+            Environment.Exit(exitCode);
         }
     }
 }
